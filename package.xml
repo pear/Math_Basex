@@ -16,16 +16,16 @@
   <release>
     <version>0.3</version>
     <license>PHP</license>
-    <state>beta</state>
+    <state>stable</state>
     <date>2003-05-23</date>
     <notes>
-    	The maximum number that can be used is different per platform.
-    	If your long (int4) integer is too short and your platform doesn't
-    	provide int8 (64-bit) integers, try converting your numbers to a double.
-    	Doubles are also 8-bytes. This way you can use int8 integers.
-    	
-      You may want to run the integer-test.php test script to check whether your
-      platform supports int8.
+        ATTENTION: BC BREAK - Class named changed from Basex to Math_Basex
+        - Support for PHP extentions, detected automaticly for easy usage
+        - stdBase for standard set of characters (for binary, decimal, heximal, etc number bases)
+        - singleton support
+        - Quick base convert using the baseConvert function
+        
+        Changes provided by Stefan Walk.
     </notes>
     <filelist>
      <dir name="/" baseinstalldir="Math">
