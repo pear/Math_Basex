@@ -14,26 +14,30 @@
     </maintainer>
   </maintainers>
   <release>
-    <version>0.2</version>
+    <version>0.3</version>
     <license>PHP</license>
-    <state>stable</state>
-    <date>2002-12-12</date>
+    <state>beta</state>
+    <date>2003-05-23</date>
     <notes>
     	The maximum number that can be used is different per platform.
     	If your long (int4) integer is too short and your platform doesn't
     	provide int8 (64-bit) integers, try converting your numbers to a double.
     	Doubles are also 8-bytes. This way you can use int8 integers.
     	
-    	You may want to run the integer-test.php test script to check whether your platform supports int8.
+      You may want to run the integer-test.php test script to check whether your
+      platform supports int8.
     </notes>
     <filelist>
      <dir name="/" baseinstalldir="Math">
       <file role="php">Basex.php</file>
      </dir>
-     <dir name="tests" baseinstalldir="Math">
-      <file role="test">Basex.php</file>
-      <file role="test">convert_base.php</file>
-      <file role="test">integer-test.php</file>
+     <dir name="tests" role="test">
+      <file>Basex.php</file>
+      <file>convert_base.php</file>
+      <file>integer-test.php</file>
+      <file>noext.integer-test.php</file>
+      <file>bcmath.integer-test.php</file>
+      <file>gmp.integer-test.php</file>
      </dir>
     </filelist>
   </release>

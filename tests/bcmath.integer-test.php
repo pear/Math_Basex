@@ -1,12 +1,12 @@
 <?php
+define('MATH_BASEX_MATHEXTENSION', 'bcmath');
 include_once ( "Math/Basex.php" );
-print "Using extension: " . MATH_BASEX_MATHEXTENSION . "\n\n";
 // PHASE 1: Simple toBase and toDecimal calls
 $base = new Math_Basex("ABCDEF");
 echo "Using character set: 'ABCDEF'\n";
 echo validateResult("toBase(123456)", $base->toBase(123456), "CDFBDCA");
 echo validateResult("toDecimal(\"BADA\")", $base->toDecimal("BADA"), "234");
-echo "\n";
+echo "\n\n";
 
 //PHASE 2: Testing int2
 $base->setBase("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
