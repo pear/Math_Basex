@@ -21,7 +21,7 @@
     <notes>
     	The maximum number that can be used is different per platform.
     	If your long (int4) integer is too short and your platform doesn't
-    	provide int8 (64-bit) integers, tru converting your number to a double.
+    	provide int8 (64-bit) integers, try converting your numbers to a double.
     	Doubles are also 8-bytes. This way you can use int8 integers.
     </notes>
     <filelist>
