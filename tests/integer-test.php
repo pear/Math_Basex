@@ -36,7 +36,7 @@ function validateResult($description, $result, $compareString)
 	if ((string)$result == (string)$compareString)
 		$ret = "PASSED";
 	else
-		$ret = "$result FAILED!!";
+		$ret = "FAILED!!";
 		
 
 	return sprintf("%'.-72.72s %s\n", $description, $ret);
