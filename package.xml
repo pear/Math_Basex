@@ -17,7 +17,7 @@
     <version>0.3</version>
     <license>PHP</license>
     <state>stable</state>
-    <date>2003-05-23</date>
+    <date>2003-10-20</date>
     <notes>
         ATTENTION: BC BREAK - Class named changed from Basex to Math_Basex
         - Support for PHP extentions, detected automaticly for easy usage
