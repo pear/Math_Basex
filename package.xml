@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "../package.dtd">
+<!-- do not use the "Type" attribute here, that one is only for
+     generated package.xml files -->
+<package version="1.0">
+  <name>Math_Basex</name>
+  <description>Base X conversion class</description>
+  <summary>Simple class for converting base set of numbers with a customize character base set.</summary>
+  <maintainers>
+    <maintainer>
+      <user>zyprexia</user>
+      <name>Dave Mertens</name>
+      <email>dmertens@zyprexia.com</email>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>0.1</version>
+    <license>PHP</license>
+    <state>stable</state>
+    <date>2002-12-10</date>
+    <notes>
+    	The maximum number that can be used is different per platform.
+    	If your long (int4) integer is too short and your platform doesn't
+    	provide int8 (64-bit) integers, tru converting your number to a double.
+    	Doubles are also 8-bytes. This way you can use int8 integers.
+    </notes>
+    <filelist>
+     <dir name="/" baseinstalldir="Math">
+      <file role="php">Basex.php</file>
+     </dir>
+    </filelist>
+  </release>
+</package>
