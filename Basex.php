@@ -18,6 +18,8 @@
 //
 // $Id$
 
+require_once "PEAR.php";
+
 /**
 * base X coding class
 *
@@ -33,7 +35,7 @@
 * @access public
 * @package math
 */
-class Basex
+class Basex extends PEAR
 {
 	/**
 	* @var character base set
@@ -55,10 +57,16 @@ class Basex
 	*/
 	function BaseX($tokens="")
 	{
-		if (strlen($tokens) > 0)
-			$this->_baseChars = $tokens;
+		//calling PEAR constructor..
+		$this->PEAR();
+		
+		//set initial length
+		$this->_length = 0;
+		
+		//if we did get already a character set, set it..
+		if (isset($tokens))
+			$this->setBase($tokens);
 			
-		$this->_length = strlen($tokens);
 	}
 	
 	/**
@@ -70,10 +78,15 @@ class Basex
 	*/
 	function setBase($tokens)
 	{
-		if (strlen($tokens) > 0)
-			$this->_baseChars = $tokens;
-			
-		$this->_length = strlen($tokens);
+		if (isset($tokens))
+		{
+			if ($this->_checkBase($tokens))
+				$this->_baseChars = $tokens;
+			else
+				return $this->raiseError("Each character is only allowed once");
+
+			$this->_length = strlen($tokens);
+		}	
 	}
 	
 	/**
@@ -85,6 +98,12 @@ class Basex
 	function toBase($number)
 	{
 		$number = round($number, 0);	//this won't work on floating numbers...
+		if (!is_numeric($number))
+			return $this->raiseError("You must supply a decimal number");
+			
+		if ($this->_length == 0)
+			return $this->raiseError("Character base isn't defined yet..");
+			
 		$code = "";
 		do
 		{
@@ -116,6 +135,9 @@ class Basex
 		$length = strlen($code);
 		$total = 0;
 		
+		if (strspn($code, $this->_baseChars) != $length)
+			return $this->raiseError("Your Base X code contains invalid characters");
+		
 		for ($i=0; $i < $length; $i++)
 		{
 			$sum = $this->_getNumber($code[$length - $i - 1]) * pow($this->_length, $i);
@@ -135,6 +157,26 @@ class Basex
 	function getBase()
 	{
 		return $this->_length;
+	}
+	
+	/**
+	* Validates whether each character is unique
+	*
+	* @param string tokens Character base set
+	* @access private
+	* @return boolean true if all characters are unique
+	*/
+	function _checkBase($tokens)
+	{
+		$length = strlen($tokens);
+		for ($i=0; $i < $length; $i++)
+		{
+			if (substr_count($tokens, $tokens[$i]) > 1)
+				return false;	//character is specified more than one time!
+		}
+		
+		//if we come here, all characters are unique
+		return true;
 	}
 	
 	/**
