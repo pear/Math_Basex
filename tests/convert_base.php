@@ -1,11 +1,11 @@
 <?php
 
 //Include BaseX class
-include_once( "Math\Basex.php" );
+include_once( "Math/Basex.php" );
 
 //mirror HEX character set an convert current code to new code
 $newcode = convert_base("5c", "012345679abcdef", "fedcba9876543210");
-echo $newcode . "\n";
+echo $newcode . " (Result: a9)\n";
 
 
 function convert_base($code, $oldbase, $newbase)
