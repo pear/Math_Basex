@@ -5,7 +5,7 @@
 <package version="1.0">
   <name>Math_Basex</name>
   <description>Base X conversion class</description>
-  <summary>Simple class for converting base set of numbers with a customize character base set.</summary>
+  <summary>Simple class for converting base set of numbers with a customizable character base set.</summary>
   <maintainers>
     <maintainer>
       <user>zyprexia</user>
@@ -14,10 +14,10 @@
     </maintainer>
   </maintainers>
   <release>
-    <version>0.1</version>
+    <version>0.2</version>
     <license>PHP</license>
     <state>stable</state>
-    <date>2002-12-10</date>
+    <date>2002-12-12</date>
     <notes>
     	The maximum number that can be used is different per platform.
     	If your long (int4) integer is too short and your platform doesn't
@@ -28,9 +28,10 @@
      <dir name="/" baseinstalldir="Math">
       <file role="php">Basex.php</file>
      </dir>
-     <dir name="tests" baseinstalldir="????">
+     <dir name="tests" baseinstalldir="Math">
       <file role="test">Basex.php</file>
       <file role="test">convert_base.php</file>
+      <file role="test">integer-test.php</file>
      </dir>
     </filelist>
   </release>
