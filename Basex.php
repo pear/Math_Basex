@@ -97,13 +97,13 @@ class Basex extends PEAR
 	*/
 	function toBase($number)
 	{
-		$number = round($number, 0);	//this won't work on floating numbers...
 		if (!is_numeric($number))
 			return $this->raiseError("You must supply a decimal number");
 			
 		if ($this->_length == 0)
 			return $this->raiseError("Character base isn't defined yet..");
-			
+
+		$number = round($number, 0);	//this won't work on floating numbers...
 		$code = "";
 		do
 		{
