@@ -14,13 +14,13 @@ function convert_base($code, $oldbase, $newbase)
  	$base = new basex($oldbase);
         
     //convert code to base10 decimal number
-    $number = $base->decode($code);
+    $number = $base->toDecimal($code);
                 
     //change to the new base
-    $base->init($newbase);
+    $base->setBase($newbase);
                         
     //encode the decimal number and return the result to the function
-    return $base->encode($number);
+    return $base->toBase($number);
 }
                                                                 
 ?>

@@ -62,14 +62,13 @@ class Basex
 	}
 	
 	/**
-	* Initialize function. Behaves the same way the constructor does, 
-	* but it allows you to change your base character set and in that way convert the base
+	* Change the character base set. Behaves the same way the constructor does.
 	*
 	* @param tokens string Character base set (Each character is only allowed one!)
 	* @return void
 	* @access public
 	*/
-	function init($tokens)
+	function setBase($tokens)
 	{
 		if (strlen($tokens) > 0)
 			$this->_baseChars = $tokens;
@@ -78,12 +77,12 @@ class Basex
 	}
 	
 	/**
-	* Encode translate a decimal (base 10) number into your base 'code'
+	* toBase translates a decimal (base 10) number into your base 'code'
 	*
 	* @param number (int64 or double without floats, both are 8-byte number types). This allows you to use numbers up to 18446744073709551616.
 	* @return string encoded 'code' of yout decimal number
 	*/
-	function encode($number)
+	function toBase($number)
 	{
 		$number = round($number, 0);	//this won't work on floating numbers...
 		$code = "";
@@ -107,12 +106,12 @@ class Basex
 	}
 	
 	/**
-	* Decode the baseX 'code' back to a decimal number
+	* toDecimal decodes the baseX 'code' back to a decimal number
 	*
 	* @param string code to decode
 	* @return int64 decimal (base 10) number
 	*/
-	function decode($code)
+	function todecimal($code)
 	{
 		$length = strlen($code);
 		$total = 0;

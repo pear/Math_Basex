@@ -28,6 +28,10 @@
      <dir name="/" baseinstalldir="Math">
       <file role="php">Basex.php</file>
      </dir>
+     <dir name="tests" baseinstalldir="????">
+      <file role="test">Basex.php</file>
+      <file role="test">convert_base.php</file>
+     </dir>
     </filelist>
   </release>
 </package>
