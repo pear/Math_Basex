@@ -43,11 +43,12 @@ if (!defined('MATH_BASEX_MATHEXTENSION')) {
 * Note that you can without much effort also use the bcmath extentions to 
 * increase the length of your numbers.
 *
-* @author Dave Mertens <dmertens@zyprexia.com>
-* @version 0.3
-* @access public
-* @package Math_Basex
 * @category Math
+* @package  Math_Basex
+* @author   Dave Mertens <dmertens@zyprexia.com>
+* @version  0.3.1
+* @access   public
+* @link     http://pear.php.net/package/Math_Basex
 */
 class Math_Basex
 {
@@ -66,8 +67,9 @@ class Math_Basex
     /**
     * Constructor for class
     *
-    * @param tokens string Character base set (Each character is only allowed 
+    * @param string $tokens Character base set (Each character is only allowed 
     *                                          once!)
+    *
     * @return void
     */
     function Math_Basex($tokens = "")
@@ -85,8 +87,9 @@ class Math_Basex
     /**
     * Change the character base set. Behaves the same way the constructor does.
     *
-    * @param tokens string Character base set (Each character is only allowed 
+    * @param string $tokens Character base set (Each character is only allowed 
     *                                          once!)
+    *
     * @return void
     * @access public
     */
@@ -103,8 +106,9 @@ class Math_Basex
     /**
     * toBase translates a decimal (base 10) number into your base 'code'
     *
-    * @param number (int64 or double without floats, both are 8-byte number 
+    * @param mixed $number (int64 or double without floats, both are 8-byte number 
     *         types). This allows you to use numbers up to 18446744073709551616.
+    *
     * @return string encoded 'code' of yout decimal number
     */
     function toBase($number)
@@ -117,7 +121,7 @@ class Math_Basex
             return PEAR::raiseError("Character base isn't defined yet..");
         }
         if (is_float($number)) {
-            $number = ltrim(sprintf('%22.0f',$number));
+            $number = ltrim(sprintf('%22.0f', $number));
         }
 
         $code = "";
@@ -134,7 +138,8 @@ class Math_Basex
     /**
     * toDecimal decodes the baseX 'code' back to a decimal number
     *
-    * @param string code to decode
+    * @param string $code code to decode
+    * 
     * @return int64 decimal (base 10) number
     */
     function todecimal($code)
@@ -150,7 +155,7 @@ class Math_Basex
         for ($i=0; $i < $length; $i++) {
             $sum = $this->_getNumber($code[$length - $i - 1]) * 
                                      $this->_pow($this->_length, $i);
-            $total = $this->_add($total,$sum);
+            $total = $this->_add($total, $sum);
         }
         
         return $total;
@@ -173,7 +178,8 @@ class Math_Basex
     /**
     * Validates whether each character is unique
     *
-    * @param string tokens Character base set
+    * @param string $tokens Character base set
+    * 
     * @access private
     * @return boolean true if all characters are unique
     */
@@ -192,13 +198,13 @@ class Math_Basex
     /**
     * Helper function for encoding function. 
     *
-    * @access private;
-    * @param number integer number to spilt for base conversion
-    * @param full integer non-float, unrounded number (will be passed as 
-    *                     reference)
-    * @param modules float floating number between 0 and 1 
-    *                     (will be passed as reference)
+    * @param int   $number   number to spilt for base conversion
+    * @param int   &$full    non-float, unrounded number (will be passed as 
+    *                        reference)
+    * @param float &$modules floating number between 0 and 1 
+    *                        (will be passed as reference)
     *
+    * @access private
     * @return void
     */
     function _splitNumber($number, &$full, &$modules)
@@ -210,7 +216,8 @@ class Math_Basex
     /**
     * Helper function; Returns character at position x
     *
-    * @param oneDigit integer number between 0 and basex->getBase()
+    * @param int $oneDigit number between 0 and basex->getBase()
+    * 
     * @return character from base character set
     * @access private;
     */
@@ -222,8 +229,9 @@ class Math_Basex
     /**
     * Helper function; Returns position of character X
     *
-    * @param oneDigit string Character in base character set
-    * @return integer number between 0 and basex->getBase()
+    * @param string $oneDigit Character in base character set
+    * 
+    * @return int number between 0 and basex->getBase()
     * @access private;
     */
     function _getNumber($oneDigit)
@@ -234,8 +242,9 @@ class Math_Basex
     /**
     * Add two numbers, utilize Math extensions
     *
-    * @param mixed a First operand
-    * @param mixed b Second operand
+    * @param mixed $a First operand
+    * @param mixed $b Second operand
+    * 
     * @return mixed
     * @access private
     */
@@ -254,8 +263,9 @@ class Math_Basex
     /**
     * Multiply two numbers, utilize Math extensions
     *
-    * @param mixed a First operand
-    * @param mixed b Second operand
+    * @param mixed $a First operand
+    * @param mixed $b Second operand
+    * 
     * @return mixed
     * @access private
     */
@@ -275,8 +285,9 @@ class Math_Basex
     /**
     * Return the modulo of two numbers, utilize Math extensions
     *
-    * @param mixed a First operand
-    * @param mixed b Second operand
+    * @param mixed $a First operand
+    * @param mixed $b Second operand
+    * 
     * @return mixed
     * @access private
     */
@@ -295,8 +306,9 @@ class Math_Basex
     /**
     * Divide two integers, utilize Math extensions
     *
-    * @param mixed a First operand
-    * @param mixed b Second operand
+    * @param mixed $a First operand
+    * @param mixed $b Second operand
+    * 
     * @return mixed
     * @access private
     */
@@ -315,8 +327,9 @@ class Math_Basex
     /**
     * Raise one number to the power of the other, utilize Math extensions
     *
-    * @param mixed a First operand
-    * @param mixed b Second operand
+    * @param mixed $a First operand
+    * @param mixed $b Second operand
+    * 
     * @return mixed
     * @access private
     */
@@ -328,14 +341,15 @@ class Math_Basex
         case 'gmp':
             return gmp_strval(gmp_pow($a, $b));
         case 'none':
-            return pow($a,$b);
+            return pow($a, $b);
         }
     }
 
     /**
     * Returns a common set of digits (0-9A-Za-z), length is given as parameter
     *
-    * @param int length Optional How many characters to return, defaults to 62.
+    * @param int $n Optional How many characters to return, defaults to 62.
+    * 
     * @return string
     * @access public
     */
@@ -349,12 +363,13 @@ class Math_Basex
     /**
     * Converts a number from one base into another. May be called statically.
     * 
-    * @param mixed number The number to convert
-    * @param int from_base The base to convert from
-    * @param int to_base The base to convert to
-    * @param string from_cs Optional character set of the number that is
+    * @param mixed  $number    The number to convert
+    * @param int    $from_base The base to convert from
+    * @param int    $to_base   The base to convert to
+    * @param string $from_cs   Optional character set of the number that is
     *                                converted
-    * @param string to_cs Optional character set of the target number
+    * @param string $to_cs     Optional character set of the target number
+    * 
     * @return string
     * @access public
     */
@@ -381,7 +396,7 @@ class Math_Basex
                                    .'given base.');
         }
         $from_cs = substr($from_cs, 0, $from_base);
-        $to_cs   = substr($to_cs,   0, $to_base);
+        $to_cs   = substr($to_cs, 0, $to_base);
         if ($tmp = $obj->setBase($from_cs) !== true) {
             return $tmp;
         }

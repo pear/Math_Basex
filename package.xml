@@ -1,44 +1,56 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<!-- do not use the "Type" attribute here, that one is only for
-     generated package.xml files -->
-<package version="1.0">
-  <name>Math_Basex</name>
-  <description>Base X conversion class</description>
-  <summary>Simple class for converting base set of numbers with a customizable character base set.</summary>
-  <maintainers>
-    <maintainer>
-      <user>zyprexia</user>
-      <name>Dave Mertens</name>
-      <email>dmertens@zyprexia.com</email>
-    </maintainer>
-  </maintainers>
-  <release>
-    <version>0.3</version>
-    <license>PHP</license>
-    <state>stable</state>
-    <date>2003-10-20</date>
-    <notes>
-        ATTENTION: BC BREAK - Class named changed from Basex to Math_Basex
-        - Support for PHP extentions, detected automaticly for easy usage
-        - stdBase for standard set of characters (for binary, decimal, heximal, etc number bases)
-        - singleton support
-        - Quick base convert using the baseConvert function
-        
-        Changes provided by Stefan Walk.
-    </notes>
-    <filelist>
-     <dir name="/" baseinstalldir="Math">
-      <file role="php">Basex.php</file>
-     </dir>
-     <dir name="tests" role="test">
-      <file>Basex.php</file>
-      <file>convert_base.php</file>
-      <file>integer-test.php</file>
-      <file>noext.integer-test.php</file>
-      <file>bcmath.integer-test.php</file>
-      <file>gmp.integer-test.php</file>
-     </dir>
-    </filelist>
-  </release>
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Math_Basex</name>
+ <channel>pear.php.net</channel>
+ <summary>Simple class for converting base set of numbers with a customizable character base set.</summary>
+ <description>Base X conversion class
+ </description>
+ <lead>
+  <name>Dave Mertens</name>
+  <user>zyprexia</user>
+  <email>dmertens@zyprexia.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2009-09-20</date>
+ <time>12:12:12</time>
+ <version>
+  <release>0.3.1</release>
+  <api>0.3.1</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP</license>
+ <notes>
+    QA Release
+    Upgrade package.xml to verison 2.0 [saltybeagle]
+ </notes>
+ <contents>
+  <dir name="/">
+   <dir name="tests">
+    <file baseinstalldir="Math" name="Basex.php" role="test" />
+    <file baseinstalldir="Math" name="bcmath.integer-test.php" role="test" />
+    <file baseinstalldir="Math" name="convert_base.php" role="test" />
+    <file baseinstalldir="Math" name="gmp.integer-test.php" role="test" />
+    <file baseinstalldir="Math" name="integer-test.php" role="test" />
+    <file baseinstalldir="Math" name="noext.integer-test.php" role="test" />
+   </dir> <!-- //tests -->
+   <file baseinstalldir="Math" name="Basex.php" role="php" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.0.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
 </package>
