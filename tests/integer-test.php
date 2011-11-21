@@ -1,46 +1,40 @@
 <?php
-include_once ( "Math/Basex.php" );
-print "Using extension: " . MATH_BASEX_MATHEXTENSION . "\n\n";
-// PHASE 1: Simple toBase and toDecimal calls
-$base = new Math_Basex("ABCDEF");
-echo "Using character set: 'ABCDEF'\n";
-echo validateResult("toBase(123456)", $base->toBase(123456), "CDFBDCA");
-echo validateResult("toDecimal(\"BADA\")", $base->toDecimal("BADA"), "234");
-echo "\n";
+require_once "Math/Basex.php";
+require_once "PHPUnit/Framework/TestCase.php";
 
-//PHASE 2: Testing int2
-$base->setBase("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-echo "Changing to character base 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'\n";
-echo validateResult("int2 (Max 65536) toBase(65432)", 
-                    $base->toBase(65432), "DSUQ");
-echo validateResult("int2 (Max 65536) tobase(67000)  OVERFLOW!", 
-                    $base->toBase(67000), "DVCY");
+class Math_Basex_IntegerTest extends PHPUnit_Framework_TestCase {
 
-//PHASE 3: Testing int4
-echo validateResult("int4 (Max 42944967297) toBase(64872767)", 
-                    $base->toBase(64872767), "FLYZQL");
-echo validateResult("int4 (Max 42944967297) tobase(43987654321) OVERFLOW!", 
-                    $base->toBase(43987654309), "FMKGDIOB");
-
-//PHASE $: Testing int8 
-echo validateResult("int8 (Max 18446744073709551616)".
-                    " toBase(18446744073709551610)", 
-                    $base->toBase(1844674409510065), "NBTNBSZVFVD");
-echo validateResult("int8 (Max 18446744073709551616)".
-                    " tobase(18446744073709551618) OVERFLOW!", 
-                    $base->toBase("18446744098897893117"), "HLHXCZQBGYKMWB");
-
-
-function validateResult($description, $result, $compareString)
-{
-    if ((string)$result == (string)$compareString) {
-        $ret = "$description\n - PASSED\n";
-    } else {
-        $ret = "$description\n - FAILED - result was $result, "
-                                        ."expecting $compareString\n";
+    public function setUp() {
+        $this->base = new Math_Basex("ABCDEF");
     }
-    return $ret;
 
+    public function testToBase() {
+        $this->base->setBase('ABCDEF');
+        $this->assertSame((string)$this->base->toBase(123456), "CDFBDCA", "toBase(123456)");
+    }
+
+    public function testToDecimal() {
+        $this->base->setBase('ABCDEF');
+        $this->assertSame((string)$this->base->toDecimal("BADA"), "234", "toDecimal(BADA)");
+    }
+
+    public function testInt2() {
+        $this->base->setBase("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+        $this->assertSame((string)$this->base->toBase(65432), "DSUQ", "int2 (Max 65536) toBase(65432)");
+        $this->assertSame((string)$this->base->toBase(67000), "DVCY", "int2 (Max 65536) tobase(67000)  OVERFLOW!");
+    }
+
+    public function testInt4() {
+        $this->base->setBase("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        $this->assertSame((string)$this->base->toBase(64872767), "FLYZQL", "int4 (Max 42944967297) toBase(64872767)");
+        $this->assertSame((string)$this->base->toBase(43987654309), "FMKGDIOB", "int4 (Max 42944967297) tobase(43987654321) OVERFLOW!");
+    }
+
+    public function testInt8() {
+        $this->base->setBase("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        //PHASE $: Testing int8 
+        $this->assertSame((string)$this->base->toBase(1844674409510065), "NBTNBSZVFVD", "int8 (Max 18446744073709551616) toBase(18446744073709551610)");
+        $this->assertSame((string)$this->base->toBase("18446744098897893117"), "HLHXCZQBGYKMWB", "int8 (Max 18446744073709551616) tobase(18446744073709551618) OVERFLOW!");
+    }
 }
-
-?>
