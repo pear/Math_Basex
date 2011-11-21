@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
+// | PHP Version 5                                                        |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 1997-2003 The PHP Group                                |
 // +----------------------------------------------------------------------+
@@ -18,17 +18,7 @@
 //
 // $Id$
 
-require_once "PEAR.php";
-
-if (!defined('MATH_BASEX_MATHEXTENSION')) {
-    if (PEAR::loadExtension('bcmath')) {
-        define('MATH_BASEX_MATHEXTENSION', 'bcmath');
-    } elseif (PEAR::loadExtension('gmp')) {
-        define('MATH_BASEX_MATHEXTENSION', 'gmp');
-    } else {
-        define('MATH_BASEX_MATHEXTENSION', 'none');
-    }
-}
+require_once "Math/Basex/Exception.php";
 
 /**
 * base X coding class
@@ -46,7 +36,7 @@ if (!defined('MATH_BASEX_MATHEXTENSION')) {
 * @category Math
 * @package  Math_Basex
 * @author   Dave Mertens <dmertens@zyprexia.com>
-* @version  0.3.1
+* @version  0.4.0
 * @access   public
 * @link     http://pear.php.net/package/Math_Basex
 */
@@ -75,7 +65,7 @@ class Math_Basex
      *
      * @return void
      */
-    public function __construct($tokens = "", $driver = MATH_BASEX_MATHEXTENSION)
+    public function __construct($tokens = "", $driver = 'none')
     {
         //set initial length
         $this->length = 0;
@@ -106,7 +96,7 @@ class Math_Basex
     public function setBase($tokens)
     {
         if (!$this->_checkBase($tokens)) {
-            return PEAR::raiseError("Each character is only allowed once");
+            throw new Math_Basex_Exception("Each character is only allowed once");
         }
         $this->baseChars = $tokens;
         $this->length = strlen($tokens);
@@ -124,11 +114,11 @@ class Math_Basex
     public function toBase($number)
     {
         if (!is_numeric($number)) {
-            return PEAR::raiseError("You must supply a decimal number");
+            throw new Math_Basex_Exception("You must supply a decimal number");
         }
             
         if ($this->length == 0) {
-            return PEAR::raiseError("Character base isn't defined yet..");
+            throw new Math_Basex_Exception("Character base isn't defined yet..");
         }
         if (is_float($number)) {
             $number = ltrim(sprintf('%22.0f', $number));
@@ -158,7 +148,7 @@ class Math_Basex
         $total = 0;
         
         if (strspn($code, $this->baseChars) != $length) {
-            return PEAR::raiseError("Your Base X code contains invalid"
+            throw new Math_Basex_Exception("Your Base X code contains invalid"
                                    ." characters");
         }
 
@@ -395,11 +385,11 @@ class Math_Basex
             $to_cs = $obj->stdBase();
         }
         if (strlen($from_cs) < $from_base) {
-            return PEAR::raiseError('Character set isn\'t long enough for the'
+            throw new Math_Basex_Exception('Character set isn\'t long enough for the'
                                    .'given base.');
         }
         if (strlen($to_cs) < $to_base) {
-            return PEAR::raiseError('Character set isn\'t long enough for the'
+            throw new Math_Basex_Exception('Character set isn\'t long enough for the'
                                    .'given base.');
         }
         $from_cs = substr($from_cs, 0, $from_base);
@@ -408,9 +398,7 @@ class Math_Basex
             return $tmp;
         }
         $number = $obj->toDecimal($number);
-        if (PEAR::isError($number)) {
-            return $number;
-        }
+
         if ($tmp = $obj->setBase($to_cs) !== true) {
             return $tmp;
         }
@@ -418,19 +406,4 @@ class Math_Basex
         return $number;
     }
 
-    /**
-     * Singleton method, call statically
-     *
-     * @return object
-     * @access public
-     * @deprecated
-     */
-    function instance()
-    {
-        static $ins = null;
-        if (is_null($ins)) {
-            $ins = new Math_Basex;
-        }
-        return $ins;
-    }
 }
