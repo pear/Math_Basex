@@ -47,4 +47,29 @@ class Math_Basex_IntegerTest extends PHPUnit_Framework_TestCase {
         $this->assertSame("NBTNBSZVFVD", (string)$base->toBase(1844674409510065), "int8 (Max 18446744073709551616) toBase(18446744073709551610)");
         $this->assertSame("HLHXCZQBGYKMWB", (string)$base->toBase("18446744098897893117"), "int8 (Max 18446744073709551616) tobase(18446744073709551618) OVERFLOW!");
     }
+
+    /** @dataProvider data */
+    public function testConvertBase(Math_Basex $base) {
+        //mirror HEX character set an convert current code to new code
+        $code = "5c";
+        $oldbase = "012345679abcdef";
+        $newbase = "fedcba9876543210";
+
+        // take old base an input
+     	$base->setBase($oldbase);
+        
+        //convert code to base10 decimal number
+        $number = $base->toDecimal($code);
+
+        //change to the new base
+        $base->setBase($newbase);
+                            
+        //encode the decimal number and return the result to the function
+        $newcode = $base->toBase($number);
+
+        $this->assertSame('a9', $newcode);
+        $newcode = $base->baseConvert("14", 10, 2);
+        $this->assertSame('1110', $newcode);
+    }
+
 }
