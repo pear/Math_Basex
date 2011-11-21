@@ -10,8 +10,8 @@
   <email>dmertens@zyprexia.com</email>
   <active>yes</active>
  </lead>
- <date>2011-11-21</date>
- <time>23:48:38</time>
+ <date>2011-11-22</date>
+ <time>00:36:49</time>
  <version>
   <release>0.3.2</release>
   <api>0.3.1</api>
@@ -27,13 +27,8 @@ Upgrade package.xml to verison 2.0 [saltybeagle]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <file baseinstalldir="/" md5sum="803baaa1c27403edccd46b565b087264" name="Math/Basex.php" role="php" />
-   <file baseinstalldir="Math" md5sum="9408e217329b9ad43f18771364fb45d2" name="tests/Basex.php" role="test" />
-   <file baseinstalldir="Math" md5sum="25695290886875c5a252d25f1f8ba16a" name="tests/bcmath.integer-test.php" role="test" />
-   <file baseinstalldir="Math" md5sum="ecfbcc513e7da86615c9d550883303ad" name="tests/convert_base.php" role="test" />
-   <file baseinstalldir="Math" md5sum="46e86a1864cd5e2862881b1f0812ad46" name="tests/gmp.integer-test.php" role="test" />
-   <file baseinstalldir="Math" md5sum="8a59701a2e10e84e4c0f74606e32f0f2" name="tests/integer-test.php" role="test" />
-   <file baseinstalldir="Math" md5sum="95655498b994cba5308e01daa675d981" name="tests/noext.integer-test.php" role="test" />
+   <file baseinstalldir="/" md5sum="5b8843b73f6a8155ec264d24d2b1c986" name="Math/Basex.php" role="php" />
+   <file baseinstalldir="/" md5sum="9f60daffdabfa2a136dc4a5f42ab3d54" name="tests/Math_Basex_IntegerTest.php" role="test" />
   </dir>
  </contents>
  <dependencies>
@@ -57,7 +52,7 @@ Upgrade package.xml to verison 2.0 [saltybeagle]
     <release>beta</release>
     <api>beta</api>
    </stability>
-   <date>2011-11-21</date>
+   <date>2011-11-22</date>
    <license uri="http://www.php.net/license">PHP</license>
    <notes>
 QA Release
