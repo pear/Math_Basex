@@ -11,10 +11,10 @@
   <active>yes</active>
  </lead>
  <date>2011-11-22</date>
- <time>00:36:49</time>
+ <time>00:44:06</time>
  <version>
-  <release>0.3.2</release>
-  <api>0.3.1</api>
+  <release>0.4.0</release>
+  <api>0.4.0</api>
  </version>
  <stability>
   <release>beta</release>
@@ -22,31 +22,42 @@
  </stability>
  <license uri="http://www.php.net/license">PHP</license>
  <notes>
-QA Release
-Upgrade package.xml to verison 2.0 [saltybeagle]
+QA release
+Introduce Math_Basex_Exception
+Refactor tests to phpunit
+Remove Math_Basex::getInstance()
+Refactor to introduce a driver / setDriver()
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <file baseinstalldir="/" md5sum="5b8843b73f6a8155ec264d24d2b1c986" name="Math/Basex.php" role="php" />
+   <file baseinstalldir="/" md5sum="910a11bf207048a4b11962a08b3587f6" name="Math/Basex.php" role="php" />
+   <file baseinstalldir="/" md5sum="f406e1e9592df9f62456dabed901c850" name="Math/Basex/Exception.php" role="php" />
    <file baseinstalldir="/" md5sum="9f60daffdabfa2a136dc4a5f42ab3d54" name="tests/Math_Basex_IntegerTest.php" role="test" />
   </dir>
  </contents>
  <dependencies>
   <required>
    <php>
-    <min>4.0.0</min>
+    <min>5.0.0</min>
    </php>
    <pearinstaller>
     <min>1.4.0b1</min>
    </pearinstaller>
   </required>
+  <optional>
+   <package>
+    <name>PHPUnit</name>
+    <channel>pear.phpunit.de</channel>
+    <min>3.6.0</min>
+   </package>
+  </optional>
  </dependencies>
  <phprelease />
  <changelog>
   <release>
    <version>
-    <release>0.3.2</release>
-    <api>0.3.1</api>
+    <release>0.4.0</release>
+    <api>0.4.0</api>
    </version>
    <stability>
     <release>beta</release>
@@ -55,8 +66,11 @@ Upgrade package.xml to verison 2.0 [saltybeagle]
    <date>2011-11-22</date>
    <license uri="http://www.php.net/license">PHP</license>
    <notes>
-QA Release
-Upgrade package.xml to verison 2.0 [saltybeagle]
+QA release
+Introduce Math_Basex_Exception
+Refactor tests to phpunit
+Remove Math_Basex::getInstance()
+Refactor to introduce a driver / setDriver()
    </notes>
   </release>
  </changelog>
