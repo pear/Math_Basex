@@ -1,7 +1,7 @@
 <?php
 
 //Include BaseX class
-include_once( "Math/Basex.php" );
+require_once "Math/Basex.php";
 
 //mirror HEX character set an convert current code to new code
 $newcode = convert_base("5c", "012345679abcdef", "fedcba9876543210");
@@ -24,5 +24,3 @@ function convert_base($code, $oldbase, $newbase)
     //encode the decimal number and return the result to the function
     return $base->toBase($number);
 }
-                                                                
-?>

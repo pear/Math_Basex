@@ -42,5 +42,3 @@ function validateResult($description, $result, $compareString)
     return $ret;
 
 }
-
-?>

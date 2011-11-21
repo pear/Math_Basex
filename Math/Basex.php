@@ -53,71 +53,81 @@ if (!defined('MATH_BASEX_MATHEXTENSION')) {
 class Math_Basex
 {
     /**
-    * @var character base set
-    * @access private;
-    */
-    var $_baseChars;
+     * @var character base set
+     * @access private;
+     */
+    protected $baseChars;
 
     /**
-    * @var base length (for binair 2, dec 10, hex 16, yours ??)
-    * @access private;
-    */
-    var $_length;
+     * @var base length (for binair 2, dec 10, hex 16, yours ??)
+     * @access private;
+     */
+    protected $length;
+
+    protected $driver;
     
     /**
-    * Constructor for class
-    *
-    * @param string $tokens Character base set (Each character is only allowed 
-    *                                          once!)
-    *
-    * @return void
-    */
-    function Math_Basex($tokens = "")
+     * Constructor for class
+     *
+     * @param string $tokens Character base set (Each character is only allowed 
+     *                                          once!)
+     * @param string $driver One of 'bcmath', 'gmp' or 'none' (default)
+     *
+     * @return void
+     */
+    public function __construct($tokens = "", $driver = MATH_BASEX_MATHEXTENSION)
     {
         //set initial length
-        $this->_length = 0;
-        
+        $this->length = 0;
+        $this->setDriver($driver);
         //if we did get already a character set, set it..
         if (!empty($tokens)) {
             $this->setBase($tokens);
         }
     }
+
+    /**
+     * @param string $driver One of 'bcmath', 'gmp' or 'none' (default)
+     */
+    public function setDriver($driver) {
+        $this->driver = $driver;
+    }
             
     
     /**
-    * Change the character base set. Behaves the same way the constructor does.
-    *
-    * @param string $tokens Character base set (Each character is only allowed 
-    *                                          once!)
-    *
-    * @return void
-    * @access public
-    */
-    function setBase($tokens)
+     * Change the character base set. Behaves the same way the constructor does.
+     *
+     * @param string $tokens Character base set (Each character is only allowed 
+     *                                          once!)
+     *
+     * @return void
+     * @access public
+     */
+    public function setBase($tokens)
     {
         if (!$this->_checkBase($tokens)) {
             return PEAR::raiseError("Each character is only allowed once");
         }
-        $this->_baseChars = $tokens;
-        $this->_length = strlen($tokens);
+        $this->baseChars = $tokens;
+        $this->length = strlen($tokens);
         return true;
     }
     
     /**
-    * toBase translates a decimal (base 10) number into your base 'code'
-    *
-    * @param mixed $number (int64 or double without floats, both are 8-byte number 
-    *         types). This allows you to use numbers up to 18446744073709551616.
-    *
-    * @return string encoded 'code' of yout decimal number
-    */
-    function toBase($number)
+     * toBase translates a decimal (base 10) number into your base 'code'
+     *
+     * @param mixed $number (int64 or double without floats, both are 8-byte number 
+     *         types). This allows you to use numbers up to 18446744073709551616.
+     *
+     * @return string encoded 'code' of yout decimal number
+     */
+    public function toBase($number)
     {
         if (!is_numeric($number)) {
             return PEAR::raiseError("You must supply a decimal number");
         }
             
-        if ($this->_length == 0) {
+        if ($this->length == 0) {
             return PEAR::raiseError("Character base isn't defined yet..");
         }
         if (is_float($number)) {
@@ -136,25 +146,25 @@ class Math_Basex
     }
     
     /**
-    * toDecimal decodes the baseX 'code' back to a decimal number
-    *
-    * @param string $code code to decode
-    * 
-    * @return int64 decimal (base 10) number
-    */
-    function todecimal($code)
+     * toDecimal decodes the baseX 'code' back to a decimal number
+     *
+     * @param string $code code to decode
+     * 
+     * @return int64 decimal (base 10) number
+     */
+    public function todecimal($code)
     {
         $length = strlen($code);
         $total = 0;
         
-        if (strspn($code, $this->_baseChars) != $length) {
+        if (strspn($code, $this->baseChars) != $length) {
             return PEAR::raiseError("Your Base X code contains invalid"
                                    ." characters");
         }
 
         for ($i=0; $i < $length; $i++) {
             $sum = $this->_getNumber($code[$length - $i - 1]) * 
-                                     $this->_pow($this->_length, $i);
+                                     $this->_pow($this->length, $i);
             $total = $this->_add($total, $sum);
         }
         
@@ -162,28 +172,28 @@ class Math_Basex
     }
     
     /**
-    * Returns the base scale. Note that this is onyl the count of the 
-    * characters used for the encoding and decoding.
-    * Please do not use base_convert with this class, because it might result 
-    * in rare results
-    *
-    * @access public
-    * @return integer
-    */
-    function getBase()
+     * Returns the base scale. Note that this is onyl the count of the 
+     * characters used for the encoding and decoding.
+     * Please do not use base_convert with this class, because it might result 
+     * in rare results
+     *
+     * @access public
+     * @return integer
+     */
+    public function getBase()
     {
-        return $this->_length;
+        return $this->length;
     }
     
     /**
-    * Validates whether each character is unique
-    *
-    * @param string $tokens Character base set
-    * 
-    * @access private
-    * @return boolean true if all characters are unique
-    */
-    function _checkBase($tokens)
+     * Validates whether each character is unique
+     *
+     * @param string $tokens Character base set
+     * 
+     * @access private
+     * @return boolean true if all characters are unique
+     */
+    protected function _checkBase($tokens)
     {
         $length = strlen($tokens);
         for ($i=0; $i < $length; $i++) {
@@ -196,61 +206,61 @@ class Math_Basex
     }
     
     /**
-    * Helper function for encoding function. 
-    *
-    * @param int   $number   number to spilt for base conversion
-    * @param int   &$full    non-float, unrounded number (will be passed as 
-    *                        reference)
-    * @param float &$modules floating number between 0 and 1 
-    *                        (will be passed as reference)
-    *
-    * @access private
-    * @return void
-    */
-    function _splitNumber($number, &$full, &$modules)
+     * Helper function for encoding function. 
+     *
+     * @param int   $number   number to spilt for base conversion
+     * @param int   &$full    non-float, unrounded number (will be passed as 
+     *                        reference)
+     * @param float &$modules floating number between 0 and 1 
+     *                        (will be passed as reference)
+     *
+     * @access private
+     * @return void
+     */
+    protected function _splitNumber($number, &$full, &$modules)
     {
-        $full = $this->_div($number, $this->_length);
-        $modules = $this->_mod($number, $this->_length);
+        $full = $this->_div($number, $this->length);
+        $modules = $this->_mod($number, $this->length);
     }
 
     /**
-    * Helper function; Returns character at position x
-    *
-    * @param int $oneDigit number between 0 and basex->getBase()
-    * 
-    * @return character from base character set
-    * @access private;
-    */
-    function _getToken($oneDigit)
+     * Helper function; Returns character at position x
+     *
+     * @param int $oneDigit number between 0 and basex->getBase()
+     * 
+     * @return character from base character set
+     * @access private;
+     */
+    protected function _getToken($oneDigit)
     {
-        return substr($this->_baseChars, $oneDigit, 1);
+        return substr($this->baseChars, $oneDigit, 1);
     }
     
     /**
-    * Helper function; Returns position of character X
-    *
-    * @param string $oneDigit Character in base character set
-    * 
-    * @return int number between 0 and basex->getBase()
-    * @access private;
-    */
-    function _getNumber($oneDigit)
+     * Helper function; Returns position of character X
+     *
+     * @param string $oneDigit Character in base character set
+     * 
+     * @return int number between 0 and basex->getBase()
+     * @access private;
+     */
+    protected function _getNumber($oneDigit)
     {
-        return strpos($this->_baseChars, $oneDigit);
+        return strpos($this->baseChars, $oneDigit);
     }    
 
     /**
-    * Add two numbers, utilize Math extensions
-    *
-    * @param mixed $a First operand
-    * @param mixed $b Second operand
-    * 
-    * @return mixed
-    * @access private
-    */
-    function _add($a, $b)
+     * Add two numbers, utilize Math extensions
+     *
+     * @param mixed $a First operand
+     * @param mixed $b Second operand
+     * 
+     * @return mixed
+     * @access private
+     */
+    protected function _add($a, $b)
     {
-        switch (MATH_BASEX_MATHEXTENSION) {
+        switch ($this->driver) {
         case 'bcmath':
             return bcadd($a, $b);
         case 'gmp':
@@ -261,17 +271,17 @@ class Math_Basex
     }
 
     /**
-    * Multiply two numbers, utilize Math extensions
-    *
-    * @param mixed $a First operand
-    * @param mixed $b Second operand
-    * 
-    * @return mixed
-    * @access private
-    */
-    function _mul($a, $b)
+     * Multiply two numbers, utilize Math extensions
+     *
+     * @param mixed $a First operand
+     * @param mixed $b Second operand
+     * 
+     * @return mixed
+     * @access private
+     */
+    protected function _mul($a, $b)
     {
-        switch (MATH_BASEX_MATHEXTENSION) {
+        switch ($this->driver) {
         case 'bcmath':
             return bcmul($a, $b);
         case 'gmp':
@@ -283,17 +293,17 @@ class Math_Basex
     }
 
     /**
-    * Return the modulo of two numbers, utilize Math extensions
-    *
-    * @param mixed $a First operand
-    * @param mixed $b Second operand
-    * 
-    * @return mixed
-    * @access private
-    */
-    function _mod($a, $b)
+     * Return the modulo of two numbers, utilize Math extensions
+     *
+     * @param mixed $a First operand
+     * @param mixed $b Second operand
+     * 
+     * @return mixed
+     * @access private
+     */
+    protected function _mod($a, $b)
     {
-        switch (MATH_BASEX_MATHEXTENSION) {
+        switch ($this->driver) {
         case 'bcmath':
             return bcmod($a, $b);
         case 'gmp':
@@ -304,17 +314,17 @@ class Math_Basex
     }
 
     /**
-    * Divide two integers, utilize Math extensions
-    *
-    * @param mixed $a First operand
-    * @param mixed $b Second operand
-    * 
-    * @return mixed
-    * @access private
-    */
-    function _div($a, $b)
+     * Divide two integers, utilize Math extensions
+     *
+     * @param mixed $a First operand
+     * @param mixed $b Second operand
+     * 
+     * @return mixed
+     * @access private
+     */
+    protected function _div($a, $b)
     {
-        switch (MATH_BASEX_MATHEXTENSION) {
+        switch ($this->driver) {
         case 'bcmath':
             return bcdiv($a, $b);
         case 'gmp':
@@ -325,17 +335,17 @@ class Math_Basex
     }
 
     /**
-    * Raise one number to the power of the other, utilize Math extensions
-    *
-    * @param mixed $a First operand
-    * @param mixed $b Second operand
-    * 
-    * @return mixed
-    * @access private
-    */
-    function _pow($a, $b)
+     * Raise one number to the power of the other, utilize Math extensions
+     *
+     * @param mixed $a First operand
+     * @param mixed $b Second operand
+     * 
+     * @return mixed
+     * @access private
+     */
+    protected function _pow($a, $b)
     {
-        switch (MATH_BASEX_MATHEXTENSION) {
+        switch ($this->driver) {
         case 'bcmath':
             return bcpow($a, $b);
         case 'gmp':
@@ -346,14 +356,14 @@ class Math_Basex
     }
 
     /**
-    * Returns a common set of digits (0-9A-Za-z), length is given as parameter
-    *
-    * @param int $n Optional How many characters to return, defaults to 62.
-    * 
-    * @return string
-    * @access public
-    */
-    function stdBase($n = 62) 
+     * Returns a common set of digits (0-9A-Za-z), length is given as parameter
+     *
+     * @param int $n Optional How many characters to return, defaults to 62.
+     * 
+     * @return string
+     * @access public
+     */
+    public function stdBase($n = 62) 
     {
         return substr("0123456789"
                      ."ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -361,26 +371,23 @@ class Math_Basex
     }
 
     /**
-    * Converts a number from one base into another. May be called statically.
-    * 
-    * @param mixed  $number    The number to convert
-    * @param int    $from_base The base to convert from
-    * @param int    $to_base   The base to convert to
-    * @param string $from_cs   Optional character set of the number that is
-    *                                converted
-    * @param string $to_cs     Optional character set of the target number
-    * 
-    * @return string
-    * @access public
-    */
-    function baseConvert($number, $from_base, $to_base, 
+     * Converts a number from one base into another. May be called statically.
+     * 
+     * @param mixed  $number    The number to convert
+     * @param int    $from_base The base to convert from
+     * @param int    $to_base   The base to convert to
+     * @param string $from_cs   Optional character set of the number that is
+     *                                converted
+     * @param string $to_cs     Optional character set of the target number
+     * 
+     * @return string
+     * @access public
+     */
+    public function baseConvert($number, $from_base, $to_base, 
                           $from_cs = null, $to_cs = null)
     {
-        if (isset($this)) {
-            $obj = &$this;
-        } else {
-            $obj = &Math_Basex::instance();
-        }
+        $obj = $this;
+
         if (!isset($from_cs)) {
             $from_cs = $obj->stdBase();
         }
@@ -412,12 +419,13 @@ class Math_Basex
     }
 
     /**
-    * Singleton method, call statically
-    *
-    * @return object
-    * @access public
-    */
-    function &instance()
+     * Singleton method, call statically
+     *
+     * @return object
+     * @access public
+     * @deprecated
+     */
+    function instance()
     {
         static $ins = null;
         if (is_null($ins)) {
@@ -426,5 +434,3 @@ class Math_Basex
         return $ins;
     }
 }
-
-?>
