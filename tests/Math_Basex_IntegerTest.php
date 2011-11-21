@@ -8,8 +8,13 @@ class Math_Basex_IntegerTest extends PHPUnit_Framework_TestCase {
         $data = array();
 
         $data[] = array(new Math_Basex('', "none"));
-        $data[] = array(new Math_Basex('', "bcmath"));
-        $data[] = array(new Math_Basex('', "gmp"));
+        if (extension_loaded('bcmath')) {
+            $data[] = array(new Math_Basex('', "bcmath"));
+        }
+
+        if (extension_loaded('gmp')) {
+            $data[] = array(new Math_Basex('', "gmp"));
+        }
         return $data;
     }
 
