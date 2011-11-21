@@ -30,7 +30,7 @@ http://pear.php.net/dtd/package-2.0.xsd">
     Upgrade package.xml to verison 2.0 [saltybeagle]
  </notes>
  <contents>
-  <dir name="/">
+  <dir baseinstalldir="/" name="/">
    <dir name="tests">
     <file baseinstalldir="Math" name="Basex.php" role="test" />
     <file baseinstalldir="Math" name="bcmath.integer-test.php" role="test" />
